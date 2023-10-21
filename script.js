@@ -39,7 +39,6 @@ form.onsubmit = (e) => {
     date: date.value,
     status: status1.value,
   };
-  console.log(descr.value);
 
   fetch(base_url + "/users", {
     method: "post",
@@ -84,6 +83,7 @@ function reload(arr) {
     td2.classList.remove("descr");
 
     grid_view.onclick = () => {
+    //   arr.slice(1);
       grid_view.classList.add("active", "fade");
       table_view.classList.remove("active", "fade");
       table.classList.add("table");
@@ -91,6 +91,10 @@ function reload(arr) {
       td1.classList.add("title");
       td2.classList.add("descr");
     };
+
+	inp_search.onblur = () => {
+		location.reload()
+	}
 
     table_view.onclick = () => {
       grid_view.classList.remove("active", "fade");
@@ -104,7 +108,7 @@ function reload(arr) {
     inp_search.onkeyup = () => {
       let val = inp_search.value.toLowerCase().trim();
 
-      let filtered = tr.filter((item) => {
+      let filtered = arr.filter((item) => {
         let title = item.title.toLowerCase().trim();
 
         if (title.includes(val)) {
