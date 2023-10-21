@@ -1,0 +1,241 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+.off {
+  color: #979797 !important;
+  font-weight: 600 !important;
+}
+.active {
+  color: #007fff !important;
+  font-weight: 800 !important;
+}
+.container {
+  margin: 30px auto;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 37px;
+  .dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .dash_box {
+      display: flex;
+      gap: 26px;
+      align-items: center;
+      h1 {
+        font-size: 48px;
+        font-weight: 600;
+      }
+      button {
+        width: 183px;
+        height: 46px;
+        border-radius: 10px;
+        background: #007fff;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        border: 0;
+      }
+    }
+    input {
+      width: 183px;
+      height: 46px;
+      font-size: 16px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      background: #fff;
+    }
+  }
+}
+.type_box {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  button {
+    border: 0;
+    color: #979797;
+    font-weight: 600;
+    background-color: #fff;
+  }
+}
+table {
+  tr:nth-child(1) {
+    color: #949494;
+  }
+  tr:nth-child(n + 2) {
+    td:nth-child(1) {
+      width: 250px;
+    }
+    td:nth-child(2) {
+      width: 520px;
+      padding-top: 19px;
+    }
+  }
+}
+.td3_main {
+  word-spacing: 60px;
+}
+.td3 {
+  word-spacing: 60px;
+  padding-block: 5px;
+}
+.table {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  .tr {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #d8d8d8;
+    width: 350.667px;
+    padding: 24px 20px;
+    gap: 11px;
+    height: fit-content;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    // background-color: red;
+    .descr {
+      width: fit-content;
+      color: #949494;
+      padding: 0;
+    }
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+}
+.add_task {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+  form {
+    padding: 56px 97px;
+    position: absolute;
+    z-index: 1100;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+    h1 {
+      color: #000;
+      font-size: 48px;
+      font-weight: 700;
+    }
+    input {
+      width: 378px;
+      height: 46px;
+      font-size: 20px;
+      padding-left: 8px;
+      outline: unset;
+      border: 1px solid black;
+      border-radius: 8px;
+    }
+    .close_add {
+      width: fit-content;
+      border: 0;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 26px;
+    }
+  }
+}
+.submit_btn {
+  height: 46px;
+  background: #0047ff;
+  color: #fff;
+  border: 0;
+  font-size: 20px;
+  border-radius: 8px;
+}
+.delete_btn {
+  height: 46px;
+  background: #e70000;
+  color: #fff;
+  border: 0;
+  font-size: 20px;
+  border-radius: 8px;
+}
+.change_task {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+  form {
+    padding: 56px 97px;
+    position: absolute;
+    z-index: 1100;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+    h1 {
+      color: #000;
+      font-size: 48px;
+      font-weight: 700;
+    }
+    input {
+      width: 378px;
+      height: 46px;
+      font-size: 20px;
+      padding-left: 8px;
+      outline: unset;
+      border: 1px solid black;
+      border-radius: 8px;
+    }
+    .close_change {
+      width: fit-content;
+      border: 0;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 26px;
+    }
+  }
+}
+.show {
+  display: block !important;
+}
+.hide {
+  display: none !important;
+}
+.fade {
+  animation-name: fade;
+  animation-duration: 0.5s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 1;
+  }
+}
