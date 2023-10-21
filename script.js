@@ -1,7 +1,7 @@
 let dashboard = document.forms.dashboard;
 let form = document.forms.add_form;
 let title = document.querySelector(".title_inp");
-let descr = document.querySelector(".descr");
+let descr = document.querySelector(".description");
 let time = document.querySelector(".time");
 let date = document.querySelector(".date");
 let status1 = document.querySelector(".status");
@@ -22,11 +22,11 @@ let delete_btn = document.querySelector(".delete_btn");
 let table_view = document.querySelector(".table_view");
 let grid_view = document.querySelector(".grid_view");
 let base_url = "http://localhost:8080";
-
+console.log(descr);
 function updateData() {
   fetch(base_url + "/users")
     .then((res) => res.json())
-    .then((res) => reload(res));
+    .then((res) => reload(res, table));
 }
 updateData();
 form.onsubmit = (e) => {
@@ -39,8 +39,7 @@ form.onsubmit = (e) => {
     date: date.value,
     status: status1.value,
   };
-
-  console.log(title.value, descr.value, time.value, date.value, status1.value);
+  console.log(descr.value);
 
   fetch(base_url + "/users", {
     method: "post",
@@ -72,12 +71,11 @@ function reload(arr) {
     td2.innerHTML = item.descr;
     td3.innerHTML = item.time + " " + item.date;
     td5.innerHTML = item.status;
-    console.log(item.desc);
 
     td3.classList.add("td3");
 
-    table.append(tr);
     tr.append(td1, td2, td3, td5);
+    table.append(tr);
 
     grid_view.classList.remove("active", "fade");
     table.classList.remove("table");
@@ -93,6 +91,7 @@ function reload(arr) {
       td1.classList.add("title");
       td2.classList.add("descr");
     };
+
     table_view.onclick = () => {
       grid_view.classList.remove("active", "fade");
       table_view.classList.add("active", "fade");
@@ -101,6 +100,7 @@ function reload(arr) {
       td1.classList.remove("title");
       td2.classList.remove("descr");
     };
+
     inp_search.onkeyup = () => {
       let val = inp_search.value.toLowerCase().trim();
 
@@ -114,9 +114,11 @@ function reload(arr) {
 
       reload(filtered);
     };
+
     add_btn.onclick = () => {
       add_task.classList.remove("show", "fade");
     };
+
     config.onclick = () => {
       add_task.classList.add("show", "fade");
     };
@@ -134,8 +136,10 @@ function reload(arr) {
         }
       });
     };
+
     tr.onclick = () => {
       change_task.classList.add("show", "fade");
+
       change_btn.onclick = () => {
         fetch(base_url + "/users/" + item.id, {
           method: "patch",
@@ -152,6 +156,7 @@ function reload(arr) {
         }).then((res) => console.log(res));
       };
     };
+
     if (td5.innerHTML == "Не выполнено") {
       td5.style.color = "#ff3d00";
     } else if (td5.innerHTML == "В прогрессе") {
