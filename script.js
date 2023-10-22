@@ -21,6 +21,7 @@ let change_btn = document.querySelector(".change_btn");
 let delete_btn = document.querySelector(".delete_btn");
 let table_view = document.querySelector(".table_view");
 let grid_view = document.querySelector(".grid_view");
+let box = document.querySelector(".box");
 let base_url = "http://localhost:8080";
 console.log(descr);
 function updateData() {
@@ -29,16 +30,46 @@ function updateData() {
     .then((res) => reload(res, table));
 }
 updateData();
+
+inp_search.onkeyup = () => {
+  let val = inp_search.value.toLowerCase().trim();
+
+  let filtered = arr.filter((item) => {
+    let title = item.title.toLowerCase().trim();
+
+    if (title.includes(val)) {
+      return item;
+    }
+  });
+
+  reload(filtered);
+};
+
+inp_search.onblur = () => {
+  location.reload();
+};
+
+add_btn.onclick = () => {
+  add_task.classList.remove("show", "fade");
+};
+
+close_add.onclick = () => {
+  add_task.classList.remove("show", "fade");
+};
+
+config.onclick = () => {
+  add_task.classList.add("show", "fade");
+};
 form.onsubmit = (e) => {
   e.preventDefault();
 
-  let users = {
-    title: title.value,
-    descr: descr.value,
-    time: time.value,
-    date: date.value,
-    status: status1.value,
-  };
+  let users = {};
+
+  let fm = new FormData(form);
+
+  fm.forEach((value, key) => {
+    users[key] = value;
+  });
 
   fetch(base_url + "/users", {
     method: "post",
@@ -56,81 +87,35 @@ form.onsubmit = (e) => {
       }
     });
 };
-function reload(arr) {
-  table.innerHTML = "";
+
+function reload(arr, place) {
+  place.innerHTML = "";
 
   for (let item of arr) {
     let tr = document.createElement("tr");
     let td1 = document.createElement("td");
     let td2 = document.createElement("td");
+    let td4 = document.createElement("td");
     let td3 = document.createElement("td");
     let td5 = document.createElement("td");
 
     td1.innerHTML = item.title;
     td2.innerHTML = item.descr;
-    td3.innerHTML = item.time + " " + item.date;
+    td3.innerHTML = item.time;
+    td4.innerHTML = item.date;
     td5.innerHTML = item.status;
 
-    td3.classList.add("td3");
-
-    tr.append(td1, td2, td3, td5);
+    tr.append(td1, td2, td3, td4, td5);
     table.append(tr);
 
-    grid_view.classList.remove("active", "fade");
-    table.classList.remove("table");
-    tr.classList.remove("tr");
-    td1.classList.remove("title");
-    td2.classList.remove("descr");
+    tr.onclick = () => {
+      change_task.classList.add("show", "fade");
 
-    grid_view.onclick = () => {
-    //   arr.slice(1);
-      grid_view.classList.add("active", "fade");
-      table_view.classList.remove("active", "fade");
-      table.classList.add("table");
-      tr.classList.add("tr");
-      td1.classList.add("title");
-      td2.classList.add("descr");
+      change_btn.onclick = (e) => {
+        e.preventDefault();
+        action();
+      };
     };
-
-	inp_search.onblur = () => {
-		location.reload()
-	}
-
-    table_view.onclick = () => {
-      grid_view.classList.remove("active", "fade");
-      table_view.classList.add("active", "fade");
-      table.classList.remove("table");
-      tr.classList.remove("tr");
-      td1.classList.remove("title");
-      td2.classList.remove("descr");
-    };
-
-    inp_search.onkeyup = () => {
-      let val = inp_search.value.toLowerCase().trim();
-
-      let filtered = arr.filter((item) => {
-        let title = item.title.toLowerCase().trim();
-
-        if (title.includes(val)) {
-          return item;
-        }
-      });
-
-      reload(filtered);
-    };
-
-    add_btn.onclick = () => {
-      add_task.classList.remove("show", "fade");
-    };
-
-    config.onclick = () => {
-      add_task.classList.add("show", "fade");
-    };
-
-    close_add.onclick = () => {
-      add_task.classList.remove("show", "fade");
-    };
-
     delete_btn.onclick = () => {
       fetch(base_url + "/users/" + item.id, {
         method: "delete",
@@ -141,26 +126,6 @@ function reload(arr) {
       });
     };
 
-    tr.onclick = () => {
-      change_task.classList.add("show", "fade");
-
-      change_btn.onclick = () => {
-        fetch(base_url + "/users/" + item.id, {
-          method: "patch",
-          body: JSON.stringify({
-            title: title_edit.value,
-            descr: descr_edit.value,
-            time: time_edit.value,
-            date: date_edit.value,
-            status: status1_edit.value,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then((res) => console.log(res));
-      };
-    };
-
     if (td5.innerHTML == "Не выполнено") {
       td5.style.color = "#ff3d00";
     } else if (td5.innerHTML == "В прогрессе") {
@@ -169,4 +134,55 @@ function reload(arr) {
       td5.style.color = "#6dda79";
     }
   }
+  for (let item of arr) {
+    let mainDiv = document.createElement("div");
+    let h2 = document.createElement("h2");
+    let p = document.createElement("p");
+    let ul = document.createElement("ul");
+    let li_date = document.createElement("li");
+    let li_time = document.createElement("li");
+    let span = document.createElement("span");
+
+    h2.innerHTML = item.title;
+    p.innerHTML = item.descr;
+    li_date.innerHTML = item.date;
+    li_time.innerHTML = item.time;
+    span.innerHTML = item.status;
+
+    box.append(mainDiv);
+    mainDiv.append(h2, p, ul, span);
+    ul.append(li_date, li_time);
+
+    mainDiv.onclick = () => {
+      change_task.classList.add("show", "fade");
+
+      change_btn.onclick = (e) => {
+        e.preventDefault();
+        action();
+      };
+    };
+	if (span.innerHTML == "Не выполнено") {
+		span.style.color = "#ff3d00";
+	  } else if (span.innerHTML == "В прогрессе") {
+		span.style.color = "#fcb458";
+	  } else {
+		span.style.color = "#6dda79";
+	  }
+  }
+}
+
+function action() {
+  fetch(base_url + "/users/" + item.id, {
+    method: "patch",
+    body: JSON.stringify({
+      title: title_edit.value,
+      descr: descr_edit.value,
+      time: time_edit.value,
+      date: date_edit.value,
+      status: status1_edit.value,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => console.log(res));
 }

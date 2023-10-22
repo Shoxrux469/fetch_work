@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="./css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Merienda&family=PT+Sans&family=Roboto&display=swap"
         rel="stylesheet">
-</head <body>
+</head> 
+<body>
 <div class="container">
     <div class="dashboard" name="dashboard">
         <div class="dash_box">
@@ -22,21 +23,17 @@
         <button class="off active table_view">Таблица</button>
         <button class="off grid_view">Плитка</button>
     </div>
-    <table class="table">
-        <tr class="main_tr">
-            <td>Заголовок задачи</td>
-            <td>Описание задачи</td>
-            <td class="td3_main">Дата Время</td>
-            <td>Выполнено</td>
-        </tr>
-        <tr class="tr">
-            <td class="title">Переписать проект на Vue 3</td>
-            <td class="descr">Quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas
-                totam\nnostrum rerum est autem sunt rem eveniet architecto</td>
-            <td class="td3">21.10.21 14:31</td>
-            <td class="red">Не выполнено</td>
-        </tr>
-    </table>
+    <div class="box">
+        <div class="main_div">
+            <h2>Переписать проект на Vue 3</h2>
+            <p>Quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto</p>
+            <ul type="none">
+                <li>21.10.21</li>
+                <li>14:31</li>
+            </ul>
+            <span class="red">Не выполнено</span>
+        </div>
+    </div>
     <div class="add_task">
         <form class="add_form" name="add_form">
             <h1>Добавить</h1>
@@ -63,7 +60,7 @@
         </form>
     </div>
 </div>
-<script src="script.js"></script>
+<!-- <script src="script.js"></script> -->
 </body>
 
-</html>
+</html> 
