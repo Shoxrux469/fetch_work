@@ -21,10 +21,9 @@ body {
 
 .container {
   margin: 30px auto;
-  width: 90%;
+  width: 85%;
   display: flex;
   flex-direction: column;
-  gap: 37px;
 }
 .container .dashboard {
   display: flex;
@@ -64,6 +63,7 @@ body {
   display: flex;
   gap: 16px;
   font-size: 14px;
+  margin: 37px 0;
   font-weight: 600;
 }
 .type_box button {
@@ -73,13 +73,17 @@ body {
   background-color: #fff;
 }
 
-table tr:nth-child(1) {
+.first_table {
+  margin-bottom: 14px;
+}
+.first_table tr:nth-child(1) {
   color: #949494;
 }
-table tr:nth-child(n+2) td:nth-child(1) {
+
+.sec_table tr:nth-child(n+2) td:nth-child(1) {
   width: 250px;
 }
-table tr:nth-child(n+2) td:nth-child(2) {
+.sec_table tr:nth-child(n+2) td:nth-child(2) {
   width: 520px;
   padding-top: 19px;
 }
@@ -87,7 +91,7 @@ table tr:nth-child(n+2) td:nth-child(2) {
 .box {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 25px;
 }
 .box div {
   width: 350px;

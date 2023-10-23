@@ -10,7 +10,8 @@ let descr_edit = document.querySelector(".descr_edit");
 let time_edit = document.querySelector(".time_edit");
 let date_edit = document.querySelector(".date_edit");
 let status1_edit = document.querySelector(".status_edit");
-let table = document.querySelector("table");
+let table = document.querySelector(".sec_table");
+let main_table = document.querySelector(".first_table");
 let config = document.querySelector(".config");
 let add_task = document.querySelector(".add_task");
 let change_task = document.querySelector(".change_task");
@@ -23,31 +24,14 @@ let table_view = document.querySelector(".table_view");
 let grid_view = document.querySelector(".grid_view");
 let box = document.querySelector(".box");
 let base_url = "http://localhost:8080";
+
 console.log(descr);
 function updateData() {
   fetch(base_url + "/users")
     .then((res) => res.json())
-    .then((res) => reload(res, table));
+    .then((res) => reload(res, false));
 }
 updateData();
-
-inp_search.onkeyup = () => {
-  let val = inp_search.value.toLowerCase().trim();
-
-  let filtered = arr.filter((item) => {
-    let title = item.title.toLowerCase().trim();
-
-    if (title.includes(val)) {
-      return item;
-    }
-  });
-
-  reload(filtered);
-};
-
-inp_search.onblur = () => {
-  location.reload();
-};
 
 add_btn.onclick = () => {
   add_task.classList.remove("show", "fade");
@@ -88,94 +72,131 @@ form.onsubmit = (e) => {
     });
 };
 
-function reload(arr, place) {
-  place.innerHTML = "";
+function reload(arr, isDone) {
+  table.innerHTML = "";
+  box.innerHTML = "";
+  //   console.log(isDone);
+  if (isDone) {
+    for (let item of arr) {
+      let mainDiv = document.createElement("div");
+      let h2 = document.createElement("h2");
+      let p = document.createElement("p");
+      let ul = document.createElement("ul");
+      let li_date = document.createElement("li");
+      let li_time = document.createElement("li");
+      let span = document.createElement("span");
 
-  for (let item of arr) {
-    let tr = document.createElement("tr");
-    let td1 = document.createElement("td");
-    let td2 = document.createElement("td");
-    let td4 = document.createElement("td");
-    let td3 = document.createElement("td");
-    let td5 = document.createElement("td");
+      ul.setAttribute("type", "none");
+      h2.innerHTML = item.title_inp;
+      p.innerHTML = item.descr;
+      li_date.innerHTML = item.date;
+      li_time.innerHTML = item.time;
+      span.innerHTML = item.status;
 
-    td1.innerHTML = item.title;
-    td2.innerHTML = item.descr;
-    td3.innerHTML = item.time;
-    td4.innerHTML = item.date;
-    td5.innerHTML = item.status;
+      box.append(mainDiv);
+      mainDiv.append(h2, p, ul, span);
+      ul.append(li_date, li_time);
 
-    tr.append(td1, td2, td3, td4, td5);
-    table.append(tr);
-
-    tr.onclick = () => {
-      change_task.classList.add("show", "fade");
-
-      change_btn.onclick = (e) => {
-        e.preventDefault();
-        action();
+      mainDiv.onclick = () => {
+        change_task.classList.add("show", "fade");
+		
+        change_btn.onclick = (e) => {
+			change_task.classList.remove("show", "fade");
+			change_task.classList.add("hide", "fade");
+			e.preventDefault();
+          action();
+        };
       };
-    };
-    delete_btn.onclick = () => {
-      fetch(base_url + "/users/" + item.id, {
-        method: "delete",
-      }).then((res) => {
-        if (res.status === 200 || res.status === 201) {
-          tr.remove();
+      if (span.innerHTML == "Не выполнено") {
+        span.style.color = "#ff3d00";
+      } else if (span.innerHTML == "В прогрессе") {
+        span.style.color = "#fcb458";
+      } else {
+        span.style.color = "#6dda79";
+      }
+    }
+  } else {
+    for (let item of arr) {
+      let tr = document.createElement("tr");
+      let td1 = document.createElement("td");
+      let td2 = document.createElement("td");
+      let td4 = document.createElement("td");
+      let td3 = document.createElement("td");
+      let td5 = document.createElement("td");
+
+      td1.innerHTML = item.title_inp;
+      td2.innerHTML = item.descr;
+      td3.innerHTML = item.time;
+      td4.innerHTML = item.date;
+      td5.innerHTML = item.status;
+
+      tr.append(td1, td2, td3, td4, td5);
+      table.append(tr);
+
+      tr.onclick = () => {
+        change_task.classList.add("show", "fade");
+
+        change_btn.onclick = (e) => {
+          e.preventDefault();
+          action();
+        };
+      };
+      delete_btn.onclick = () => {
+        fetch(base_url + "/users/" + item.id, {
+          method: "delete",
+        }).then((res) => {
+          if (res.status === 200 || res.status === 201) {
+            tr.remove();
+          }
+        });
+      };
+
+      if (td5.innerHTML == "Не выполнено") {
+        td5.style.color = "#ff3d00";
+      } else if (td5.innerHTML == "В прогрессе") {
+        td5.style.color = "#fcb458";
+      } else {
+        td5.style.color = "#6dda79";
+      }
+    }
+    inp_search.onkeyup = () => {
+      let val = inp_search.value.toLowerCase().trim();
+
+      let filtered = arr.filter((item) => {
+        let title = item.title_inp.toLowerCase().trim();
+
+        if (title.includes(val)) {
+          return item;
         }
       });
+
+      reload(filtered);
     };
-
-    if (td5.innerHTML == "Не выполнено") {
-      td5.style.color = "#ff3d00";
-    } else if (td5.innerHTML == "В прогрессе") {
-      td5.style.color = "#fcb458";
-    } else {
-      td5.style.color = "#6dda79";
-    }
-  }
-  for (let item of arr) {
-    let mainDiv = document.createElement("div");
-    let h2 = document.createElement("h2");
-    let p = document.createElement("p");
-    let ul = document.createElement("ul");
-    let li_date = document.createElement("li");
-    let li_time = document.createElement("li");
-    let span = document.createElement("span");
-
-    h2.innerHTML = item.title;
-    p.innerHTML = item.descr;
-    li_date.innerHTML = item.date;
-    li_time.innerHTML = item.time;
-    span.innerHTML = item.status;
-
-    box.append(mainDiv);
-    mainDiv.append(h2, p, ul, span);
-    ul.append(li_date, li_time);
-
-    mainDiv.onclick = () => {
-      change_task.classList.add("show", "fade");
-
-      change_btn.onclick = (e) => {
-        e.preventDefault();
-        action();
-      };
+    inp_search.onblur = () => {
+      location.reload();
     };
-	if (span.innerHTML == "Не выполнено") {
-		span.style.color = "#ff3d00";
-	  } else if (span.innerHTML == "В прогрессе") {
-		span.style.color = "#fcb458";
-	  } else {
-		span.style.color = "#6dda79";
-	  }
   }
+
+  grid_view.onclick = () => {
+    reload(arr, true);
+    main_table.classList.add("hide");
+    grid_view.classList.add("active", "fade");
+    table_view.classList.remove("active", "fade");
+  };
+
+  table_view.onclick = () => {
+    reload(arr, false);
+    main_table.classList.remove("hide");
+    table_view.classList.add("active", "fade");
+    grid_view.classList.remove("active", "fade");
+  };
 }
 
 function action() {
   fetch(base_url + "/users/" + item.id, {
     method: "patch",
     body: JSON.stringify({
-      title: title_edit.value,
+      title_inp: title_edit.value,
       descr: descr_edit.value,
       time: time_edit.value,
       date: date_edit.value,

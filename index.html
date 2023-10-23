@@ -23,24 +23,28 @@
         <button class="off active table_view">Таблица</button>
         <button class="off grid_view">Плитка</button>
     </div>
+    <table class="first_table">
+        <tr>
+            <td>Заголовок задачи</td>
+            <td>Описание задачи</td>
+            <td>Время</td>
+            <td>Дата</td>
+            <td>Выполнено</td>
+        </tr>
+    </table>
+    <table class="sec_table">
+
+    </table>
     <div class="box">
-        <div class="main_div">
-            <h2>Переписать проект на Vue 3</h2>
-            <p>Quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto</p>
-            <ul type="none">
-                <li>21.10.21</li>
-                <li>14:31</li>
-            </ul>
-            <span class="red">Не выполнено</span>
-        </div>
+
     </div>
     <div class="add_task">
         <form class="add_form" name="add_form">
             <h1>Добавить</h1>
             <input class="title_inp" type="text" name="title_inp" id="" placeholder="Заголовок">
             <input class="description" type="text" name="descr" id="" placeholder="Описание">
-            <input class="time" type="text" name="time" id="" placeholder="Время (type=time)">
-            <input class="date" type="text" name="date" id="" placeholder="Время (type=date)">
+            <input class="time" type="time" name="time" id="" placeholder="Время (type=time)">
+            <input class="date" type="date" name="date" id="" placeholder="Время (type=date)">
             <input class="status" type="text" name="status" id="" placeholder="Тип задачи (new/progress/done)">
             <button type="submit" class="submit_btn add_btn">Добавить</button>
             <button class="close_add">Х</button>
@@ -60,7 +64,7 @@
         </form>
     </div>
 </div>
-<!-- <script src="script.js"></script> -->
+<script src="script.js"></script>
 </body>
 
 </html> 
