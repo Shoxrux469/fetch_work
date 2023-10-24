@@ -26,6 +26,7 @@ let box = document.querySelector(".box");
 let base_url = "http://localhost:8080";
 
 console.log(descr);
+
 function updateData() {
   fetch(base_url + "/users")
     .then((res) => res.json())
@@ -61,15 +62,13 @@ form.onsubmit = (e) => {
     headers: {
       "Content-Type": "application/json",
     },
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res);
-      if (res.status === 200 || res.status === 201) {
-        updateData();
-        form.reset();
-      }
-    });
+  }).then((res) => {
+    console.log(res);
+    if (res.status === 200 || res.status === 201) {
+      updateData();
+      form.reset();
+    }
+  });
 };
 
 function reload(arr, isDone) {
@@ -99,12 +98,12 @@ function reload(arr, isDone) {
 
       mainDiv.onclick = () => {
         change_task.classList.add("show", "fade");
-		
+
         change_btn.onclick = (e) => {
-			change_task.classList.remove("show", "fade");
-			change_task.classList.add("hide", "fade");
-			e.preventDefault();
-          action();
+          change_task.classList.remove("show", "fade");
+          change_task.classList.add("hide", "fade");
+          e.preventDefault();
+          action(item);
         };
       };
       if (span.innerHTML == "Не выполнено") {
@@ -135,10 +134,9 @@ function reload(arr, isDone) {
 
       tr.onclick = () => {
         change_task.classList.add("show", "fade");
-
         change_btn.onclick = (e) => {
           e.preventDefault();
-          action();
+          action(item);
         };
       };
       delete_btn.onclick = () => {
@@ -192,8 +190,8 @@ function reload(arr, isDone) {
   };
 }
 
-function action() {
-  fetch(base_url + "/users/" + item.id, {
+function action(data) {
+  fetch(base_url + "/users/" + data.id, {
     method: "patch",
     body: JSON.stringify({
       title_inp: title_edit.value,
